@@ -36,6 +36,14 @@ console.log(item)
             moveis.innerHTML += `        <div class="moveis_child">   
             <div class="imag_moveis">
   <img src="${item.poster}" alt="">
+  <div class="triler">
+  
+  <a href="#" class="link-trailer">
+ 
+  <i class='bx bx-tv'></i>
+  <span>مشاهده تریلر</span>
+  </a>
+  </div>
           </div>
           <div class="inform_moveis">
             <div class="title-meta">
