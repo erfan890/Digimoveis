@@ -5,7 +5,10 @@ let sun = document.querySelector('.bx-sun')
 let moveis = document.querySelector('.movies')
 let right = true;
 let left = false;
+const inp=document.querySelector('input')
+
 btn.addEventListener('click', change_position)
+inp.addEventListener('keyup' , search)
 function change_position() {
 
     if (right) {
@@ -28,6 +31,7 @@ function change_position() {
     }
 
 }
+
 fetch('https://moviesapi.ir/api/v1/movies?')
     .then(res => res.json()).then(res => {
         
@@ -64,7 +68,7 @@ console.log(item)
                     </li>
                     <li>
                         <i class='bx bx-time-five' ></i>
-<span>زمان
+<span>زمان${item.year}
 </span>
 
                     </li>
@@ -84,15 +88,69 @@ console.log(item)
 </div>`
         })
     })
-    let nam=[{
-    nam:"dfgfrg",
-    email:'grthbgrthb',
-    password:'rgthbgrt',
-    }]
-  let xhr=new XMLHttpRequest();
-  xhr.onload=res=>{
-    console.log(res)
-  }
-  xhr.open()
-
-  xhr.send('POST',`https://moviesapi.ir/api/v1/register/${JSON.stringify(nam)}`)
+    function search(){
+     
+       fetch(`https://moviesapi.ir/api/v1/movies?q=${inp.value}`).then(res => res.json()).then(res =>{
+      
+        (res.data).map(item => {
+            console.log(item)
+            
+     if(((item.title).toUpperCase()).startsWith(inp.value)){
+        console.log(item)
+    
+        moveis.innerHTML+=`    <div class="moveis_child"> 
+        <div class="imag_moveis">
+      <img src="${item.poster}" alt="">
+      <div class="triler">
+      
+      <a href="#" class="link-trailer">
+     
+      <i class='bx bx-tv'></i>
+      <span>مشاهده تریلر</span>
+      </a>
+      </div>
+              </div>
+              <div class="inform_moveis">
+                <div class="title-meta">
+                    <div class="right-side"></div>
+                    <div class="left-side">
+                        <h2>
+                            <a href="">
+                                دانلود فیلم ${item.title}
+                            </a>
+                        </h2>
+                    </div>
+                </div>
+                <div class="meta_item">
+                    <ul>
+                        <li> <i class='bx bx-tv'></i>
+                         <span>   کیفیت
+                        </span>
+                        </li>
+                        <li>
+                            <i class='bx bx-time-five' ></i>
+    <span>زمان${item.year}
+    </span>
+    
+                        </li>
+                        <li><i class='bx bx-folder' ></i>
+                        <span>ژانر:${(item.genres).map(item=>item)}</span></li>
+                        <li>
+                            <i class='bx bxs-face'></i>
+                            <span>کارگردان</span>
+                        </li>
+                        <li><i class='bx bxs-face'></i>
+                        <span>ستارگان</span></li>
+                        <li><i class='bx bx-planet' ></i>
+                        <span>محصول:${item.country}</span></li>
+                    </ul>
+                </div>
+              </div>
+    </div>`
+        
+     }
+         
+        }
+           )
+       })
+    }
